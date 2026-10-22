@@ -32,3 +32,17 @@ def test_smoke_round_trip_and_missing_data(tmp_path):
     assert sum(map(sum, report['confusion_matrix'])) == 8
     with pytest.raises(FileNotFoundError, match='No dataset is downloaded'):
         load_data(None)
+
+
+
+def test_epoch_metrics_include_every_batch():
+    from classifier import epoch_pass
+    class BatchModel:
+        def reset_metrics(self):
+            pass
+        def train_on_batch(self, inputs, labels, return_dict):
+            return {'loss': float(np.mean(labels))}
+        test_on_batch = train_on_batch
+    x, y = np.zeros((3, 1)), np.array([1, 3, 8])
+    assert epoch_pass(BatchModel(), x, y, 2, True)['loss'] == 4
+    assert epoch_pass(BatchModel(), x, y, 2, False)['loss'] == 4

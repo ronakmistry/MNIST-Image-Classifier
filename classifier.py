@@ -95,9 +95,14 @@ def labels(values, count):
 def epoch_pass(model, x, y, batch_size, training):
     model.reset_metrics()
     call = model.train_on_batch if training else model.test_on_batch
+    totals, count = {}, 0
     for start in range(0, len(x), batch_size):
-        metrics = call(x[start:start+batch_size], y[start:start+batch_size], return_dict=True)
-    return {key: float(value) for key, value in metrics.items()}
+        labels_batch = y[start:start+batch_size]
+        metrics = call(x[start:start+batch_size], labels_batch, return_dict=True)
+        for key, value in metrics.items():
+            totals[key] = totals.get(key, 0.0) + float(value) * len(labels_batch)
+        count += len(labels_batch)
+    return {key: total / count for key, total in totals.items()}
 
 
 def run(smoke=True, data=None, output='artifacts/smoke', epochs=10, batch_size=64, seed=42):
