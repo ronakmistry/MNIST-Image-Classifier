@@ -1,0 +1,19 @@
+{
+  "starting_commit": "789fd41a62f61528614745c69a4fbf26ae77b3be",
+  "original_files": [
+    ".gitattributes",
+    "MNIST on Keras.ipynb"
+  ],
+  "original_environment": "Python 3.6.3; unpinned dependencies; see historical notebooks",
+  "restoration_environment": "Python 3.12",
+  "historical_results": "Saved test accuracy 0.9885; test loss 0.03467965570805827; unverified.",
+  "missing_resources": [
+    "local MNIST dataset cache",
+    "saved trained model"
+  ],
+  "original_dependencies": [
+    "keras",
+    "tensorflow",
+    "numpy"
+  ]
+}
